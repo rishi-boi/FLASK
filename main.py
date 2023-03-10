@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 import MySQLdb
 from werkzeug.utils import secure_filename
@@ -50,6 +50,7 @@ class Posts(db.Model):
 
 @app.route("/")
 def home():
+    # flash('Subscribe To Rishi', 'success')
     posts = Posts.query.filter_by().all()
     last = math.ceil(len(posts)/int(params['num_of_pg']))
     page = request.args.get('page')
@@ -109,8 +110,9 @@ def contact():
         mail.send_message('New message from ' + name,
                         sender=email,
                         recipients = [params['admin_mail']],
-                        body = message + "\n" + phone
+                        body = 'Email' + email + "\n" + 'Message' + message + "\n" + 'Phone' + phone
                         )
+        flash('Thanks For Reaching Out. We Will Get Back To You Soon.', 'success')
 
     return render_template('contact.html', params = params)
 
@@ -133,6 +135,7 @@ def edit(sno):
                 post = Posts(title=title, slug=slug, content=content, img_file=img_file, date=datetime.now())
                 db.session.add(post)
                 db.session.commit()
+                flash('New Post Created Successfully.', 'success')
             
             else:
                 post = Posts.query.filter_by(sno=sno).first()
@@ -143,6 +146,7 @@ def edit(sno):
                 post.date = datetime.now()
                 # db.session.add(post)
                 db.session.commit()
+                flash('Post Edited Successfully.', 'success')
                 return redirect('/edit/0' + sno)
         post = Posts.query.filter_by(sno=sno).first()
         return render_template('edit.html', params=params, post=post, sno=sno)
@@ -153,8 +157,9 @@ def uploader():
         if request.method == 'POST':
             f = request.files.get('file1')
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+            flash('File Uploaded Successfully.', 'success')
 
-            return "Uploaded Successfully"
+            return redirect('/dashboard')
         
 @app.route("/logout")
 def logout():
@@ -167,6 +172,8 @@ def delete(sno):
         post = Posts.query.filter_by(sno=sno).first()
         db.session.delete(post)
         db.session.commit()
+        flash('Deleted Successfully.', 'success')
+        
 
         return redirect('/dashboard')
 
