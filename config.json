@@ -1,0 +1,20 @@
+{
+    "params":
+    {
+        "local_server": "True",
+        "local_uri": "mysql://root:@localhost/rishiblog",
+        "prid_uri": "mysql://root:@localhost/rishiblog",
+        "fb_url": "",
+        "gh_url": "",
+        "in_url": "",
+        "tw_url": "",
+        "blog_name": "Rishi Blog",
+        "gmail_user": "ihatebtsgang@gmail.com",
+        "gmail_password": "mitkrbmtoswvteoc",
+        "admin_mail": "rishipardeshi567@gmail.com",
+        "num_of_pg":2,
+        "admin_user": "Rishi",
+        "admin_password":"Rishi@123",
+        "upload_location": "C:\\Users\\parde\\OneDrive\\Desktop\\FLASK\\static\\uploaded_file"
+    }
+}
